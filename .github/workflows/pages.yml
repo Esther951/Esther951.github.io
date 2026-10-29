@@ -14,18 +14,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
 
-      - name: Install theme
-        run: |
-          git clone --depth 1 https://github.com/hexojs/hexo-theme-landscape.git themes/landscape
-          npm install hexo-theme-landscape
+      - run: npx hexo generate
 
-      - name: Build
-        run: npx hexo generate
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
