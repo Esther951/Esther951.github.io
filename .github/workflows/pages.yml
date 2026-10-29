@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Install theme
+        run: pnpm hexo install
+
       - name: Build
         run: pnpm hexo generate
 
