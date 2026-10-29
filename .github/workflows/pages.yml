@@ -10,21 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm install
 
       - name: Install theme
-        run: pnpm hexo install
+        run: |
+          git clone --depth 1 https://github.com/hexojs/hexo-theme-landscape.git themes/landscape
+          npm install hexo-theme-landscape
 
       - name: Build
-        run: pnpm hexo generate
+        run: npx hexo generate
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
