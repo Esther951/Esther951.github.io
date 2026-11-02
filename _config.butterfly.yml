@@ -26,7 +26,7 @@ avatar:
   img: /img/avatar.jpg
   effect: false
 disable_top_img: false
-default_top_img: null
+default_top_img: /img/banner.jpg
 index_img: /img/banner.jpg
 archive_img: null
 tag_img: null
