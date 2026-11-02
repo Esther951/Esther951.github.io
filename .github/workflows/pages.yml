@@ -3,6 +3,10 @@ name: Deploy Hexo to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -16,11 +20,13 @@ jobs:
 
       - run: npm install
 
-      - run: npx hexo generate
+      - name: Generate site
+        run: npx hexo clean && npx hexo generate
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          publish_branch: gh-pages
           force_orphan: true
