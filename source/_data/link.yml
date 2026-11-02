@@ -1,0 +1,15 @@
+- class_name: 推荐
+  class_desc: 常看的地方
+  link_list:
+    - name: 树木的博客
+      link: https://blog.shumu.xin/
+      avatar: https://blog.shumu.xin/img/avatar.webp
+      descr: 算法竞赛与网络安全笔记
+    - name: Hexo
+      link: https://hexo.io/zh-cn/
+      avatar: https://hexo.io/icon/favicon-196x196.png
+      descr: 博客框架文档
+    - name: Butterfly
+      link: https://butterfly.js.org/
+      avatar: https://butterfly.js.org/img/favicon.png
+      descr: 主题文档
