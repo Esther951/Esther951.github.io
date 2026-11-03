@@ -72,7 +72,7 @@ subtitle:
   typed_option: null
   source: false
   sub: null
-index_layout: 4
+index_layout: 1
 index_post_content:
   method: 2
   length: 150
@@ -491,7 +491,8 @@ structured_data:
   alternate_name: null
 css_prefix: true
 inject:
-  head: null
+  head:
+    - '<style>#recent-posts .recent-post-item .post_cover .post-bg{object-position:center 25%}#page-header.post-bg{height:520px;background-position:center 8%}@media (max-width:768px){#page-header.post-bg{height:320px;background-position:center 10%}}</style>'
   bottom: null
 CDN:
   internal_provider: local
