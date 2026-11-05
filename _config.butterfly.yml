@@ -1,4 +1,4 @@
-nav:
+﻿nav:
   logo: null
   display_title: true
   display_post_title: true
@@ -492,7 +492,8 @@ structured_data:
 css_prefix: true
 inject:
   head:
-    - '<style>#recent-posts .recent-post-item .post_cover .post-bg{object-position:center 25%}#page-header.post-bg{height:520px;background-position:center 8%}@media (max-width:768px){#page-header.post-bg{height:320px;background-position:center 10%}}</style>'
+    - '<style>#recent-posts .recent-post-item .post_cover .post-bg{object-position:center 25%}#page-header.post-bg{height:520px;position:relative;isolation:isolate;overflow:hidden;background-color:#111;background-image:none!important}#page-header.post-bg::before{content:""!important;position:absolute!important;inset:-60px;width:auto!important;height:auto!important;z-index:-2;background-color:transparent!important;background-image:var(--post-bg,url(/img/banner.jpg));background-size:cover;background-position:center 30%;background-repeat:no-repeat;filter:blur(28px) brightness(.5)}#page-header.post-bg::after{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--post-bg,url(/img/banner.jpg));background-size:contain;background-position:center;background-repeat:no-repeat}@media (max-width:768px){#page-header.post-bg{height:320px}}</style>'
+    - '<script>document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector("#page-header.post-bg");if(!h)return;var bg=h.style.backgroundImage;if(bg&&bg!=="none"){h.style.setProperty("--post-bg",bg);}});</script>'
   bottom: null
 CDN:
   internal_provider: local
