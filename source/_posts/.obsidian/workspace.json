@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CF1452D 题解.md",
+                "file": "CF2283C 题解.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CF1452D 题解"
+              "title": "CF2283C 题解"
             }
           }
         ]
@@ -190,9 +190,10 @@
   },
   "active": "f9db3dc898ee9d4d",
   "lastOpenFiles": [
+    "CF1452D 题解.md",
+    "CF2283C 题解.md",
     "未命名.canvas",
     "未命名.base",
-    "CF1452D 题解.md",
     "hello-world.md"
   ]
 }
