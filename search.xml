@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CF1452D 题解</title>
+    <url>/2026/11/02/CF1452D%20%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="题意简述"><a href="#题意简述" class="headerlink" title="题意简述"></a>题意简述</h2><p>对于 $1$ 到 $n$ 的每个位置，都可以选择是否建造信号塔。</p>
+<p>若在位置 $i$ 建造强度为 $p$ 的信号塔，则其覆盖区间为</p>
+<p>$[i-p,\ i+p]$.</p>
+<p>因此，一个合法方案可以看成若干个奇数长度区间的拼接。</p>
+<blockquote>
+<p>tag:计数 动态规划</p>
+<p>难度cf1350 洛谷普及</p>
+</blockquote>
+<p>合法方案要求：</p>
+<ol>
+<li>任意两个信号塔的覆盖区间不相交；</li>
+<li>所有覆盖区间都不能超出 $[1,n]$；</li>
+<li>每个位置以 $1&#x2F;2$ 的概率建造信号塔。</li>
+</ol>
+<p>求最终方案合法的概率。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>首先可以想到对于一个位置建不建造的选择有2种,所以所有情况就是 $2^n$,于是题目就转化为了计数问题,问有多少种情况合法最后乘上逆元就好了</p>
+<p>于是题目就变成了求解找合法方案的个数,对于1到n的范围用长度只能是奇数的块覆盖,例如对于长的为5的块可以是长度为4的块加上一块或者长度为2的加上一个长度为3的块,和长度为0的块加长度为5的块就是</p>
+<p>定义$f[i]$ 定义是长度为i的被完全覆盖的合法方案有多少种</p>
+<p>考虑最后一个信号塔。假设它覆盖的区间长度为 $i-j$，<br>由于覆盖区间长度一定是奇数，所以 $i-j$ 必须为奇数。</p>
+<p>前面的长度为 $j$ 的区间可以独立构成一个合法方案，<br>因此有：</p>
+<p>$$f[i]&#x3D;\sum_{\substack{0\le j&lt;i\i-j\text{ 是奇数}}}f[j]$$</p>
+<p>例如，当 $i&#x3D;5$ 时，满足 $5-j$ 为奇数的 $j$ 有 $0,2,4$，<br>所以：</p>
+<p>$$f[5]&#x3D;f[0]+f[2]+f[4]$$</p>
+<p>其中 $f[0]&#x3D;1$ 表示空区间有一种方案，$f[1]&#x3D;f[2]&#x3D;1$ 是根据题目边界直接得到的初始情况.</p>
+<p>当 $i$ 为奇数时，为了保证 $i-j$ 为奇数，$j$ 必须为偶数，因此 $f[i]$ 是所有偶数下标 $f[j]$ 的和。</p>
+<p>当 $i$ 为偶数时，$j$ 必须为奇数，因此 $f[i]$ 是所有奇数下标 $f[j]$ 的和。</p>
+<p>因此只需维护奇数下标和 <code>sum_odd</code> 以及偶数下标和 <code>sum_even</code>，即可在 $O(1)$ 时间内计算每个状态。</p>
+<p>至于逆元的话直接用快速幂就好了</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> ll mod = <span class="number">998244353</span>;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll a, ll b, ll mod)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    ll res = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (b &gt; <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            res = (res * a) % mod;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        a = (a * a) % mod;</span><br><span class="line"></span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    ll n;</span><br><span class="line"></span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">f</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    f[<span class="number">0</span>] = f[<span class="number">1</span>] = f[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    ll sum_odd = <span class="number">1</span>, sum_even = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n; i++)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            f[i] = sum_odd % mod;</span><br><span class="line"></span><br><span class="line">            sum_even = (sum_even + sum_odd) % mod;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            f[i] = sum_even % mod;</span><br><span class="line"></span><br><span class="line">            sum_odd = (sum_odd + sum_even) % mod;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    ll res = <span class="built_in">qpow</span>(<span class="number">2</span>, n, mod);</span><br><span class="line"></span><br><span class="line">    res = <span class="built_in">qpow</span>(res, mod - <span class="number">2</span>, mod);</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; (f[n] * res) % mod &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    ll T = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// cin &gt;&gt; T;</span></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (T--)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>组合数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CF2283C 题解</title>
+    <url>/2026/11/05/CF2283C%20%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="题意简述"><a href="#题意简述" class="headerlink" title="题意简述"></a>题意简述</h2><p>从 <code>1</code> 到 <code>n</code> 中选择一些数字，将选中的数字乘 <code>2</code>，使修改后所有数字的异或和不小于原序列按位或的 <code>2</code> 倍。</p>
+<blockquote>
+<p>tag:计数 动态规划</p>
+<p>难度cf1250 洛谷普及</p>
+</blockquote>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>设 <code>n</code> 的最高位下标为 <code>d</code>。因为 <code>1</code> 到 <code>n</code> 中包含 <code>2^d</code>，并且低于第 <code>d</code> 位的每一位都能在某个数中出现，所以：</p>
+<p>$$1 \mid 2 \mid \cdots \mid n &#x3D; 2^{d+1}-1 &#x3D; 111\cdots111_2$$</p>
+<p>记这个按位或的结果为 <code>k</code>。</p>
+<p>因此，我们需要让最终异或和至少为 <code>2k</code>。由于：</p>
+<p>$$2k &#x3D; 2^{d+2}-2 &#x3D; 111\cdots110_2$$</p>
+<p>所以目标是让最终异或和的第 <code>d+1</code> 位到第 <code>1</code> 位全部为 <code>1</code>，最低位无特殊要求。</p>
+<h2 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h2><p>先计算当前异或和 $ans &#x3D; 1 \oplus 2 \oplus \cdots \oplus n$，然后从高位向低位处理。</p>
+<p>假设当前处理第 <code>i+1</code> 位：</p>
+<ul>
+<li><p>如果这一位已经是 <code>1</code>，不需要操作；</p>
+</li>
+<li><p>如果这一位是 <code>0</code>，就选择 <code>2^i</code>，将它乘 <code>2</code> 变成 <code>2^{i+1}</code>。</p>
+</li>
+</ul>
+<p>这次操作会使异或和变为：</p>
+<p>$$ans’ &#x3D; ans \oplus 2^i \oplus 2^{i+1}$$</p>
+<p>因此只会改变第 <code>i</code> 位和第 <code>i+1</code> 位。当前第 <code>i+1</code> 位会被翻转为 <code>1</code>，而更高位不会受到影响。</p>
+<p>继续从高位处理到低位，就能保证已经处理好的高位不会被破坏，最终得到满足条件的异或和。</p>
+<h2 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h2><p>计算初始异或和为 <code>O(n)</code>，按位贪心为 <code>O(log n)</code>，总复杂度为 <code>O(n)</code>。</p>
+<p>代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">typedef __int128 lll;</span><br><span class="line">typedef pair&lt;ll, ll&gt; PLL;</span><br><span class="line">typedef pair&lt;int, int&gt; PII;</span><br><span class="line">typedef tuple&lt;int, int, int&gt; TII;</span><br><span class="line">#define endl &#x27;\n&#x27;</span><br><span class="line">const ll N = 2e5 + 5;</span><br><span class="line">const ll INF = 1e18, MINF = -1e18;</span><br><span class="line"></span><br><span class="line">void solve()</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    ll n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">    ll ans = 0;</span><br><span class="line">    vector&lt;ll&gt; aa;</span><br><span class="line"></span><br><span class="line">    for (int i = 1; i &lt;= n; i++)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        ans ^= i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i = n; i &gt;= 1; i--)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        bool flag = (i &amp; (i - 1)) == 0;</span><br><span class="line"></span><br><span class="line">        if (flag)</span><br><span class="line">        &#123;</span><br><span class="line">            if ((ans ^ i ^ (2 * i)) &gt; ans)</span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line">                aa.push_back(1);</span><br><span class="line">                ans = ans ^ i ^ (2 * i);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                aa.push_back(0);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            aa.push_back(0);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    reverse(aa.begin(), aa.end());</span><br><span class="line">    for (auto v : aa)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; v &lt;&lt; &#x27; &#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    ios::sync_with_stdio(false);</span><br><span class="line">    cin.tie(0);</span><br><span class="line">  </span><br><span class="line">    ll t = 1;</span><br><span class="line">    cin &gt;&gt; t;</span><br><span class="line">    while (t--)</span><br><span class="line">    &#123;</span><br><span class="line">        solve();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>贪心</tag>
+        <tag>构造</tag>
+        <tag>二进制</tag>
+      </tags>
+  </entry>
+</search>
