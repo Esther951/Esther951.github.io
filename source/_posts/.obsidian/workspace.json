@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "08db5715eb2c969c",
+        "id": "2d62f990c80ffd2f",
         "type": "tabs",
         "children": [
           {
-            "id": "f9db3dc898ee9d4d",
+            "id": "3765f6be13860876",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "CF2283C 题解.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "CF2283C 题解"
+              "title": "新标签页"
             }
           }
         ]
@@ -188,10 +184,12 @@
       "bases:新建数据库": false
     }
   },
-  "active": "f9db3dc898ee9d4d",
+  "active": "3765f6be13860876",
   "lastOpenFiles": [
-    "CF1452D 题解.md",
     "CF2283C 题解.md",
+    "CF2267C 题解.md",
+    "CF2277C 题解.md",
+    "CF1452D 题解.md",
     "未命名.canvas",
     "未命名.base",
     "hello-world.md"
