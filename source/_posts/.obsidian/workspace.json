@@ -11,10 +11,14 @@
             "id": "3765f6be13860876",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "CF2283C 题解.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "CF2283C 题解"
             }
           }
         ]
@@ -186,10 +190,10 @@
   },
   "active": "3765f6be13860876",
   "lastOpenFiles": [
-    "CF2283C 题解.md",
+    "CF1452D 题解.md",
     "CF2267C 题解.md",
     "CF2277C 题解.md",
-    "CF1452D 题解.md",
+    "CF2283C 题解.md",
     "未命名.canvas",
     "未命名.base",
     "hello-world.md"
